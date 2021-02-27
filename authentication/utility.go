@@ -1,5 +1,7 @@
 package authentication
 
+import "golang.org/x/crypto/bcrypt"
+
 func validateSignupForm(account Account) error {
 	if account.UserName == "" {
 		return errUserNameEmpty
@@ -11,4 +13,9 @@ func validateSignupForm(account Account) error {
 		return errPasswordEmpty
 	}
 	return nil
+}
+
+func hashPassword(plainPassword string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(plainPassword), passwordHashCost)
+	return string(hashedPassword), err
 }

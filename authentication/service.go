@@ -19,12 +19,18 @@ func getAuthenticationService() authenticationService {
 	}
 }
 
+// EndpointSignup is the endpoint providing registration
 func EndpointSignup(w http.ResponseWriter, r *http.Request) {
 	now := time.Now()
+	hashedPassword, err := hashPassword(r.FormValue(fieldPassword))
+	if err != nil {
+		w.Write([]byte("password hashing error"))
+		return
+	}
 	account := Account{
 		UserName:     r.FormValue(fieldUserName),
 		UserID:       base.GetIDGenerator().Generate().Base58(),
-		Password:     r.FormValue(fieldPassword),
+		Password:     hashedPassword,
 		EmailAddress: r.FormValue(fieldEmailAddress),
 		MemberSince:  now,
 		LastLogin:    now,

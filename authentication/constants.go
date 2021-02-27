@@ -9,7 +9,9 @@ var (
 )
 
 const (
-	fieldUserName     = "user_name"
-	fieldPassword     = "password"
-	fieldEmailAddress = "email_address"
+	fieldUserName     string = "user_name"
+	fieldPassword     string = "password"
+	fieldEmailAddress string = "email_address"
+
+	passwordHashCost int = 8
 )
