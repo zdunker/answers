@@ -21,6 +21,10 @@ type Account struct {
 	LastLogin    time.Time
 }
 
+func isUserNameOccupied(db orm.DB, userName string) (bool, error) {
+	return db.Model((*Account)(nil)).Where(fieldUserName+"= ?", userName).Exists()
+}
+
 func (account Account) signup(db orm.DB) error {
 	if err := validateSignupForm(account); err != nil {
 		return err

@@ -1,6 +1,8 @@
 package base
 
 import (
+	"time"
+
 	"github.com/bwmarrin/snowflake"
 	"github.com/go-pg/pg/v10"
 )
@@ -12,11 +14,13 @@ func Init() error {
 	}
 	postgresDB = pg.Connect(opt)
 
-	idNode, err = snowflake.NewNode(1)
-	if err != nil {
+	if idNode, err = snowflake.NewNode(1); err != nil {
 		return err
 	}
 
+	if serverLocation, err = time.LoadLocation("Asia/Shanghai"); err != nil {
+		return err
+	}
 	return nil
 	//TODO: remember to close connection while stopping service
 }
@@ -27,4 +31,12 @@ func GetIDGenerator() *snowflake.Node {
 
 func GetPostgresDB() *pg.DB {
 	return postgresDB
+}
+
+func GetServerLocation() *time.Location {
+	return serverLocation
+}
+
+func GetServerTime() time.Time {
+	return time.Now().In(serverLocation)
 }
