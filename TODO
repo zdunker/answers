@@ -1,3 +1,8 @@
 2021/3/8
 need to implement a middleware to handle incoming requests -- parse headers, query strings and post form values, etc.
 also this middleware should also have a common http respone handler, including setting http status codes, setting content types, etc.
+
+2021/3/8
+refer to https://chai2010.cn/advanced-go-programming-book/ch5-web/ch5-03-middleware.html and https://www.alexedwards.net/blog/making-and-using-middleware
+mux router has built-in interface (*mux.Router).Use(mwf MiddlewareFunc) to adopt middlewares.
+need to think about how to add timers, loggers as basic middlewares and also deep encapsulate http.Handler to make endpoint registers more natural.
