@@ -5,6 +5,7 @@ import (
 
 	"github.com/bwmarrin/snowflake"
 	"github.com/go-pg/pg/v10"
+	"github.com/go-playground/validator/v10"
 )
 
 func Init() error {
@@ -13,6 +14,7 @@ func Init() error {
 		return err
 	}
 	postgresDB = pg.Connect(opt)
+	validate = validator.New()
 
 	if idNode, err = snowflake.NewNode(1); err != nil {
 		return err
@@ -39,4 +41,8 @@ func GetServerLocation() *time.Location {
 
 func GetServerTime() time.Time {
 	return time.Now().In(serverLocation)
+}
+
+func GetValidator() *validator.Validate {
+	return validate
 }

@@ -44,9 +44,6 @@ func (postgresDB PostgresAccountHandler) PhoneNumberExists(phoneNumber string) (
 
 // Signup -- signup new user with input account
 func (postgresDB PostgresAccountHandler) Signup(account Account) error {
-	if err := validateSignupForm(account); err != nil {
-		return err
-	}
 	_, err := postgresDB.db.Model(&account).Insert()
 	return err
 }
@@ -56,10 +53,10 @@ func (postgresDB PostgresAccountHandler) Signup(account Account) error {
 type Account struct {
 	tableName struct{} `pg:"user_auth"`
 
-	UserName     string    `pg:"user_name"`
+	UserName     string    `pg:"user_name" validate:"required"`
 	UserID       string    `pg:"user_id"`
-	Password     string    `pg:"password"`
-	EmailAddress string    `pg:"email_address"`
+	Password     string    `pg:"password" validate:"required"`
+	EmailAddress string    `pg:"email_address" validate:"required,email"`
 	MemberSince  time.Time `pg:"member_since"`
 	LastLogin    time.Time `pg:"last_login"`
 }

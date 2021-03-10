@@ -6,15 +6,18 @@ import (
 	"fmt"
 
 	"github.com/go-pg/pg/v10"
+	"github.com/go-playground/validator/v10"
 )
 
 type authenticationService struct {
-	db *pg.DB
+	db       *pg.DB
+	validate *validator.Validate
 }
 
 func getAuthenticationService() authenticationService {
 	return authenticationService{
-		db: base.GetPostgresDB(),
+		db:       base.GetPostgresDB(),
+		validate: base.GetValidator(),
 	}
 }
 
@@ -61,7 +64,7 @@ func (service authenticationService) createAccount(account Account) error {
 }
 
 func (service authenticationService) validateSignupForm(account Account) error {
-	if err := validateSignupForm(account); err != nil {
+	if err := service.validate.Struct(account); err != nil {
 		return err
 	}
 
