@@ -6,6 +6,7 @@ import (
 	"github.com/bwmarrin/snowflake"
 	"github.com/go-pg/pg/v10"
 	"github.com/go-playground/validator/v10"
+	"github.com/gorilla/sessions"
 )
 
 func Init() error {
@@ -23,6 +24,9 @@ func Init() error {
 	if serverLocation, err = time.LoadLocation("Asia/Shanghai"); err != nil {
 		return err
 	}
+
+	sessionStore = sessions.NewFilesystemStore("../..", []byte("random"))
+
 	return nil
 	//TODO: remember to close connection while stopping service
 }
@@ -45,4 +49,8 @@ func GetServerTime() time.Time {
 
 func GetValidator() *validator.Validate {
 	return validate
+}
+
+func GetSessionStore() *sessions.FilesystemStore {
+	return sessionStore
 }

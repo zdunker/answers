@@ -6,6 +6,7 @@ import (
 	"github.com/bwmarrin/snowflake"
 	"github.com/go-pg/pg/v10"
 	"github.com/go-playground/validator/v10"
+	"github.com/gorilla/sessions"
 )
 
 var (
@@ -13,4 +14,5 @@ var (
 	postgresDB     *pg.DB
 	serverLocation *time.Location
 	validate       *validator.Validate
+	sessionStore   *sessions.FilesystemStore
 )
