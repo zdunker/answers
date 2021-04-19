@@ -6,6 +6,7 @@ import (
 	"github.com/bwmarrin/snowflake"
 	"github.com/go-pg/pg/v10"
 	"github.com/go-playground/validator/v10"
+	"github.com/go-redis/redis/v8"
 	"github.com/gorilla/sessions"
 )
 
@@ -15,6 +16,11 @@ func Init() error {
 		return err
 	}
 	postgresDB = pg.Connect(opt)
+
+	redisDB = redis.NewClient(&redis.Options{
+		Addr: "localhost:6379",
+		DB:   0,
+	})
 	validate = validator.New()
 
 	if idNode, err = snowflake.NewNode(1); err != nil {
